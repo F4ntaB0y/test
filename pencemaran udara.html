@@ -603,13 +603,7 @@ function bindCleanAction(selector, hpGain) {
     document.querySelectorAll(selector).forEach(el => {
         el.classList.add('clickable-pollution');
         
-        el.addEventListener('mouseover', function(e) {
-            if(Math.random() > 0.5) {
-                let dx = (Math.random() - 0.5) * 40;
-                let dy = (Math.random() - 0.5) * 40;
-                this.style.transform = `translate(${dx}px, ${dy}px) rotate(${Math.random()*45}deg)`;
-            }
-        });
+        
 
         el.addEventListener('click', function(e) {
             if(this.style.opacity !== "0" && this.style.display !== "none" && currentHP < 100) {
