@@ -492,9 +492,17 @@
 
         /* ULTIMATE BUBBLE FORCE COMPOSITOR */
         .foam-bubbles .bubble.clickable-pollution {
-            animation: rise 4s infinite ease-in, dangerPulse 2s infinite ease-in-out !important;
+            animation-name: rise, dangerPulse;
+            animation-duration: 4s, 2s;
+            animation-iteration-count: infinite;
+            animation-timing-function: ease-in, ease-in-out;
             z-index: 2000 !important;
         }
+        .foam-bubbles .b1 { animation-delay: 0s, 0s !important; }
+        .foam-bubbles .b2 { animation-delay: 1s, 1s !important; }
+        .foam-bubbles .b3 { animation-delay: 2.5s, 2.5s !important; }
+        .foam-bubbles .b4 { animation-delay: 1.8s, 1.8s !important; }
+        .foam-bubbles .b5 { animation-delay: 0.5s, 0.5s !important; }
 
 </style>
 
