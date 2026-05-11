@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Lab - Pencemaran Lingkungan</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&display=swap');
 
         * {
             margin: 0;
@@ -15,8 +15,9 @@
         }
 
         body {
-            background: #bfe9ff;
+            background: #0f172a;
             overflow-x: hidden;
+            color: #ffffff;
         }
 
         /* BACKGROUND */
@@ -26,84 +27,117 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(0,0,0,0.15)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop');
+            background: linear-gradient(135deg, rgba(15,23,42,0.9) 0%, rgba(30,41,59,0.7) 100%), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
             z-index: -2;
+            animation: pulseBg 20s infinite alternate;
+        }
+        
+        @keyframes pulseBg {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
         }
 
-        /* DARK OVERLAY */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.15);
+        /* DECORATIVE LIGHTS */
+        .glow-1 {
+            position: absolute;
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, rgba(56,189,248,0.2) 0%, transparent 70%);
+            top: -10%;
+            left: -10%;
             z-index: -1;
+            filter: blur(50px);
+            animation: float 8s infinite alternate;
+        }
+
+        .glow-2 {
+            position: absolute;
+            width: 30vw;
+            height: 30vw;
+            background: radial-gradient(circle, rgba(167,139,250,0.15) 0%, transparent 70%);
+            bottom: -5%;
+            right: -5%;
+            z-index: -1;
+            filter: blur(50px);
+            animation: float 10s infinite alternate-reverse;
         }
 
         .container {
             width: 100%;
             min-height: 100vh;
             position: relative;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
         .header {
             text-align: center;
-            color: white;
-            text-shadow: 0 6px 15px rgba(0,0,0,0.4);
-            margin-bottom: 40px;
-            animation: fadeInDown 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+            margin-bottom: 60px;
+            animation: fadeInDown 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .header h1 {
-            font-size: 55px;
+            font-size: clamp(40px, 6vw, 70px);
             line-height: 1.1;
             font-weight: 800;
             margin-bottom: 15px;
+            background: linear-gradient(to right, #38bdf8, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            letter-spacing: -1px;
         }
 
         .header p {
-            font-size: 18px;
-            max-width: 600px;
+            font-size: clamp(16px, 2vw, 20px);
+            max-width: 650px;
             margin: 0 auto;
-            text-shadow: 0 3px 8px rgba(0,0,0,0.4);
+            color: #cbd5e1;
+            line-height: 1.6;
         }
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            width: 95%;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            width: 100%;
             max-width: 1100px;
             perspective: 1000px;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 35px;
-            padding: 40px 30px;
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 45px 30px;
             text-decoration: none;
             color: white;
-            transition: 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.05);
             animation: fadeInUp 1s forwards;
             opacity: 0;
-            transform: translateY(30px);
-            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transform: translateY(40px);
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-20deg);
+            transition: 0.7s;
         }
 
         .card:nth-child(1) { animation-delay: 0.1s; }
@@ -111,90 +145,89 @@
         .card:nth-child(3) { animation-delay: 0.5s; }
 
         .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            transform: translateY(-15px);
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4), 0 0 30px rgba(56, 189, 248, 0.2);
+        }
+        
+        .card:hover::before {
+            left: 150%;
         }
 
         .icon {
-            font-size: 60px;
-            margin-bottom: 15px;
-            transition: 0.3s;
+            font-size: 70px;
+            margin-bottom: 25px;
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3));
         }
 
         .card:hover .icon {
-            transform: scale(1.1) rotate(5deg);
+            transform: scale(1.15) translateY(-5px);
         }
 
         .card h2 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            font-weight: 700;
+            font-size: 26px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #f8fafc;
         }
 
         .card p {
             font-size: 16px;
-            color: #f1f2f6;
-            line-height: 1.5;
+            color: #94a3b8;
+            line-height: 1.6;
             text-align: center;
         }
 
         @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+            from { transform: translateY(0px); }
+            to { transform: translateY(30px); }
         }
 
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 42px;
-            }
-            .card {
-                padding: 30px 20px;
-            }
+            .card { padding: 30px 20px; }
         }
     </style>
 </head>
 <body>
 
     <div class="bg"></div>
-    <div class="overlay"></div>
+    <div class="glow-1"></div>
+    <div class="glow-2"></div>
 
     <div class="container">
         <div class="header">
             <h1>VIRTUAL LAB</h1>
-            <p>Simulasi Interaktif Pencemaran Lingkungan. Pilih kategori di bawah ini untuk memulai simulasi pengamatan dampak polutan terhadap ekosistem.</p>
+            <p>Simulasi Interaktif Pencemaran Lingkungan. Pilih kategori di bawah ini untuk memulai pengamatan dampak polutan terhadap ekosistem kita.</p>
         </div>
 
         <div class="menu-grid">
             <a href="pencemaran air.html" class="card">
                 <div class="icon">🌊</div>
                 <h2>Pencemaran Air</h2>
-                <p>Amati dampak limbah terhadap ekosistem perairan dan kualitas air.</p>
+                <p>Amati dampak mematikan limbah terhadap ekosistem perairan dan kualitas sumber air.</p>
             </a>
 
             <a href="pencemaran tanah.html" class="card">
                 <div class="icon">🌱</div>
                 <h2>Pencemaran Tanah</h2>
-                <p>Pelajari pengaruh zat kimia dan sampah terhadap kesuburan tanah dan tanaman.</p>
+                <p>Pelajari pengaruh zat kimia dan sampah anorganik terhadap kesuburan tanah dan tanaman.</p>
             </a>
 
             <a href="pencemaran udara.html" class="card">
                 <div class="icon">🏭</div>
                 <h2>Pencemaran Udara</h2>
-                <p>Lihat bagaimana asap dan gas beracun memengaruhi pernapasan dan kualitas udara.</p>
+                <p>Lihat secara langsung bagaimana asap dan gas beracun memengaruhi pernapasan dan kualitas udara di kota.</p>
             </a>
         </div>
     </div>
