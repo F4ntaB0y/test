@@ -360,12 +360,37 @@
 
         /* NEW POLLUTION CSS */
         /* FORCE CONTAINERS TO NEVER BLOCK CLICKS, ONLY THEIR CHILDREN CAN */
-        .foam-bubbles, .plastic-waste, .toxic-waste { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none !important; opacity: 0; transition: opacity 1s ease; z-index: 20; }
-        .pestisida-gas { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none !important; opacity: 0; transition: opacity 1s ease; z-index: 10; } /* Low z-index by default so it never blocks others */
+        .foam-bubbles, .plastic-waste, .toxic-waste { 
+            position: absolute; 
+            width: 100%; 
+            height: 100%; 
+            top: 0; 
+            left: 0; 
+            pointer-events: none !important; 
+            opacity: 0; 
+            visibility: hidden; 
+            transition: opacity 1s ease, visibility 1s ease; 
+            z-index: 20; 
+        }
+        .pestisida-gas { 
+            position: absolute; 
+            width: 100%; 
+            height: 100%; 
+            top: 0; 
+            left: 0; 
+            pointer-events: none !important; 
+            opacity: 0; 
+            visibility: hidden;
+            transition: opacity 1s ease, visibility 1s ease; 
+            z-index: 10; 
+        }
         
         /* ACTIVE STATES */
-        .active-pollution { opacity: 1 !important; }
-        .active-pollution.pestisida-gas { pointer-events: auto !important; z-index: 30 !important; } /* ONLY becomes high z-index & clickable when explicitly active! */
+        .active-pollution { 
+            opacity: 1 !important; 
+            visibility: visible !important; 
+        }
+        .active-pollution.pestisida-gas { pointer-events: auto !important; z-index: 30 !important; }
         
         /* CHILDREN - MUST ALWAYS BE CLICKABLE AND AT THE VERY TOP */
         .bubble, .trash-item, .barrel-air { pointer-events: auto !important; z-index: 50 !important; position: absolute; }
@@ -482,7 +507,7 @@
 
     .particle { position: fixed; width: 8px; height: 8px; border-radius: 50%; pointer-events: none; z-index: 10001; animation: explode 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; box-shadow: 0 0 5px currentColor; }
     @keyframes explode { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--vx), var(--vy)) scale(0); opacity: 0; } }
-    .confetti { position: fixed; width: 12px; height: 12px; z-index: 10002; pointer-events: none; animation: fall linear forwards; }
+    .confetti { position: fixed; width: 12px; height: 12px; z-index: 10002; pointer-events: none; animation: fall 3s linear forwards; }
     @keyframes fall { 0% { transform: translateY(-10px) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
 
