@@ -286,8 +286,14 @@
         .p5 { left: 88%; animation-delay: 0.2s; }
         
         @keyframes sway {
-            from { transform: rotate(-5deg); }
-            to { transform: rotate(5deg); }
+            from { transform: rotate(-12deg) skewX(-5deg); }
+            to { transform: rotate(12deg) skewX(5deg); }
+        }
+        .plant {
+            font-size: 60px;
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.6));
+            transform-origin: bottom center;
+            animation: sway 3s ease-in-out infinite alternate;
         }
 
         /* INFO */
@@ -348,8 +354,8 @@
         }
 
         /* NEW POLLUTION CSS */
-        .foam-bubbles, .plastic-waste, .toxic-waste, .pestisida-gas { pointer-events: none !important; position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; transition: opacity 1s ease; z-index: 20; }
-        .active-pollution { opacity: 1 !important; }
+        .foam-bubbles, .plastic-waste, .toxic-waste, .pestisida-gas { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; opacity: 0; transition: opacity 1s ease; z-index: 20; }
+        .active-pollution { opacity: 1 !important; pointer-events: auto !important; }
         .bubble { position: absolute; background: rgba(255,255,255,0.7); border-radius: 50%; animation: rise 4s infinite ease-in; box-shadow: inset 0 0 10px rgba(255,255,255,0.9); }
         .b1 { width: 40px; height: 40px; left: 20%; bottom: -40px; animation-delay: 0s; }
         .b2 { width: 60px; height: 60px; left: 40%; bottom: -60px; animation-delay: 1s; }
@@ -526,10 +532,10 @@
 
         <!-- PLANTS -->
         <div class="plant p1">🪸</div>
-        <div class="plant p2">🌿</div>
-        <div class="plant p3">🪸</div>
-        <div class="plant p4">🌿</div>
-        <div class="plant p5">🪸</div>
+        <div class="plant p2">🪼</div>
+        <div class="plant p3">🌿</div>
+        <div class="plant p4">🪸</div>
+        <div class="plant p5">🌿</div>
 
     
         <!-- POLLUTION ELEMENTS -->
@@ -844,7 +850,13 @@ function bindCleanAction(selector, hpGain) {
     document.querySelectorAll(selector).forEach(el => {
         el.classList.add('clickable-pollution');
         
-        
+        el.addEventListener('mouseover', function(e) {
+            if(Math.random() > 0.5) {
+                let dx = (Math.random() - 0.5) * 40;
+                let dy = (Math.random() - 0.5) * 40;
+                this.style.transform = `translate(${dx}px, ${dy}px) rotate(${Math.random()*45}deg)`;
+            }
+        });
 
         el.addEventListener('click', function(e) {
             if(this.style.opacity !== "0" && this.style.display !== "none" && currentHP < 100) {
