@@ -779,11 +779,13 @@ function pestisida(){
 }
 
 function resetSimulasi(){
-    setHP(100, false, true); resetGameElements();
-    
+    // FASE 1: Hilangkan Gelembung & Partikel Seketika (Fade Out 1 detik aktif)
     clearPollution();
-
-    river.className = "river";
+    
+    // FASE 2: Tunggu 1.2 detik sampai partikel BENAR-BENAR LENYAP dari pandangan, BARULAH bersihkan warna air
+    setTimeout(() => {
+        setHP(100, false, true); resetGameElements();
+        river.className = "river";
 
     document.getElementById("ph").innerHTML = "7";
     document.getElementById("oxygen").innerHTML = "Tinggi";
@@ -796,7 +798,7 @@ function resetSimulasi(){
 
     document.getElementById("info").innerHTML =
     "Air kembali bersih dan ekosistem perairan normal.";
-
+    }, 1200);
 }
 
 
@@ -950,7 +952,7 @@ function setHP(val, isDamage = false, isReset = false) {
                 window.victoryTimeout = setTimeout(() => {
                     triggerVictory();
                     resetSimulasi();
-                }, 300);
+                }, 1500);
             }
         } else {
             if(hint) hint.style.display = "block";
