@@ -231,7 +231,7 @@ function oli(){
     document.getElementById('oil-spill').classList.add('active-pollution');
     land.classList.add("polluted");damagePlants();document.getElementById("soil").innerHTML="Tercemar Oli";document.getElementById("plant").innerHTML="Tidak Tumbuh";document.getElementById("organism").innerHTML="Berkurang";document.getElementById("color").innerHTML="Hitam Berminyak";document.getElementById("info").innerHTML="Tumpahan oli menghambat penyerapan air dan nutrisi tanah.";}
 function resetSimulasi(){
-    setHP(100, false);
+    setHP(100, false, true);
     hideAllPollution();
     land.classList.remove("polluted");trash.forEach(i=>i.classList.remove("show-trash"));healPlants();document.getElementById("soil").innerHTML="Baik";document.getElementById("plant").innerHTML="Subur";document.getElementById("organism").innerHTML="Normal";document.getElementById("color").innerHTML="Coklat";document.getElementById("info").innerHTML="Tanah kembali subur dan ekosistem darat normal.";}
 
