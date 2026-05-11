@@ -490,19 +490,20 @@
     @keyframes fall { 0% { transform: translateY(-10px) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
 
-        /* ULTIMATE BUBBLE FORCE COMPOSITOR */
-        .foam-bubbles .bubble.clickable-pollution {
-            animation-name: rise, dangerPulse;
-            animation-duration: 4s, 2s;
+        /* ULTIMATE BUBBLE FORCE COMPOSITOR - PURE AMBIENT ANIMATION */
+        .foam-bubbles .bubble {
+            animation-name: rise;
+            animation-duration: 4s;
             animation-iteration-count: infinite;
-            animation-timing-function: ease-in, ease-in-out;
+            animation-timing-function: ease-in;
             z-index: 2000 !important;
+            pointer-events: none !important; /* Visual only now */
         }
-        .foam-bubbles .b1 { animation-delay: 0s, 0s !important; }
-        .foam-bubbles .b2 { animation-delay: 1s, 1s !important; }
-        .foam-bubbles .b3 { animation-delay: 2.5s, 2.5s !important; }
-        .foam-bubbles .b4 { animation-delay: 1.8s, 1.8s !important; }
-        .foam-bubbles .b5 { animation-delay: 0.5s, 0.5s !important; }
+        .foam-bubbles .b1 { animation-delay: 0s !important; }
+        .foam-bubbles .b2 { animation-delay: 1s !important; }
+        .foam-bubbles .b3 { animation-delay: 2.5s !important; }
+        .foam-bubbles .b4 { animation-delay: 1.8s !important; }
+        .foam-bubbles .b5 { animation-delay: 0.5s !important; }
 
 </style>
 
@@ -668,7 +669,7 @@ function clearPollution() {
 }
 
 function deterjen(){
-    setHP(50, true); resetGameElements();
+    setHP(100, false, true); resetGameElements();
     
     clearPollution();
     document.getElementById('foam-bubbles').classList.add('active-pollution');
@@ -958,7 +959,7 @@ function resetGameElements() {
 }
 
 setTimeout(() => {
-    bindCleanAction('.bubble', 10);
+    // bindCleanAction('.bubble', 10); (DISABLED GAME FOR DETERGENT)
     bindCleanAction('.trash-item', 20);
     bindCleanAction('.barrel-air', 20);
     bindCleanAction('.p-item', 30);
