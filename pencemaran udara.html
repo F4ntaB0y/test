@@ -87,6 +87,14 @@
         .firebg { background: linear-gradient(180deg, #991b1b 0%, #450a0a 100%) !important; }
         .green { background: linear-gradient(180deg, #34d399 0%, #064e3b 100%) !important; }
 
+        /* EFEK ELEMEN SAAT TERCEMAR */
+        .polluted .cloud { filter: brightness(0.4) grayscale(0.5); }
+        .polluted .sun { filter: brightness(0.3) sepia(1) hue-rotate(-40deg); }
+        .polluted .tree { filter: grayscale(0.6) brightness(0.7); }
+        .firebg .cloud { filter: brightness(0.3) sepia(1) saturate(2) hue-rotate(-30deg); opacity: 0.7; }
+        .firebg .sun { display: none; }
+        .firebg .tree { filter: contrast(1.5) brightness(0.3) sepia(1) hue-rotate(-50deg); }
+
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -399,6 +407,11 @@ function penghijauan(){
     "Penghijauan membantu menyerap polusi udara.";
 
 }
+
+function resetSimulasi() {
+    penghijauan();
+}
+
 
 
 // Audio Synthesizer
