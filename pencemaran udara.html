@@ -641,7 +641,7 @@ setTimeout(() => {
         fire.addEventListener('click', function(e) {
             if(this.style.display !== "none" && currentHP < 100) {
                 this.style.display = "none";
-                setHP(100, true);
+                setHP(100, false);
                 createFloatingText(e, "Api padam! 💦", "#4ade80");
                 playPopSound();
                 e.stopPropagation();
@@ -652,7 +652,7 @@ setTimeout(() => {
 
 
 function resetGameElements() {
-    document.querySelectorAll('.factory-smoke, .cs').forEach(el => {
+    document.querySelectorAll('.factory-smoke, .cs, #fire').forEach(el => {
         el.style.display = "";
         el.style.opacity = "";
         el.style.pointerEvents = "";
