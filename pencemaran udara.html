@@ -119,6 +119,7 @@
     .fish:hover, .plant:hover, .tree:hover, .city:hover, .factory:hover, .sun:hover, .cloud:hover, .car:hover { filter: drop-shadow(0 0 10px rgba(255,255,255,0.8)) brightness(1.2); }
 
     
+    
     /* GAME CSS */
     .health-bar-container { width: 100%; margin-bottom: 20px; text-align: left; }
     .health-bar-text { font-size: 16px; font-weight: 600; color: #f8fafc; margin-bottom: 8px; display: flex; justify-content: space-between; }
@@ -128,9 +129,18 @@
     .hp-mid { background: linear-gradient(90deg, #b45309 0%, #f59e0b 100%); box-shadow: 0 0 15px rgba(245, 158, 11, 0.8); }
     .game-hint { text-align: center; font-size: 14px; color: #4ade80; margin-top: 15px; font-weight: 500; animation: pulseHint 2s infinite; display: none; }
     @keyframes pulseHint { 0% { opacity: 0.5; } 50% { opacity: 1; transform: scale(1.05); } 100% { opacity: 0.5; } }
-    .clickable-pollution { cursor: crosshair !important; transition: 0.2s; }
-    .clickable-pollution:hover { transform: scale(1.2) rotate(10deg); filter: brightness(1.5) drop-shadow(0 0 10px white); }
-    .clickable-pollution:active { transform: scale(0.8); }
+    .clickable-pollution { cursor: crosshair !important; transition: 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .clickable-pollution:hover { filter: brightness(1.5) drop-shadow(0 0 10px white); }
+    .clickable-pollution:active { transform: scale(0.8) !important; }
+    
+    /* JUICE EFFECTS */
+    .particle { position: fixed; width: 8px; height: 8px; border-radius: 50%; pointer-events: none; z-index: 10001; animation: explode 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; box-shadow: 0 0 5px currentColor; }
+    @keyframes explode { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--vx), var(--vy)) scale(0); opacity: 0; } }
+    .confetti { position: fixed; width: 12px; height: 12px; z-index: 10002; pointer-events: none; animation: fall linear forwards; }
+    @keyframes fall { 0% { transform: translateY(-10px) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+    .shake { animation: shakeAnim 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+    @keyframes shakeAnim { 10%, 90% { transform: translate3d(-2px, 0, 0); } 20%, 80% { transform: translate3d(4px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-6px, 0, 0); } 40%, 60% { transform: translate3d(6px, 0, 0); } }
+
 
 </style>
 
@@ -319,7 +329,7 @@ function clearAirPollution() {
 }
 
 function kendaraan(){
-    setHP(40); resetPollutionVisibility('.cs');
+    setHP(40, true); resetPollutionVisibility('.cs');
     clearAirPollution();
     document.getElementById('car-smoke-group').classList.add('active-pollution');
 
@@ -338,7 +348,7 @@ function kendaraan(){
 }
 
 function pabrik(){
-    setHP(40); resetPollutionVisibility('.factory-smoke');
+    setHP(40, true); resetPollutionVisibility('.factory-smoke');
     clearAirPollution();
     document.getElementById('factory-smoke-group').classList.add('active-pollution');
 
@@ -357,7 +367,7 @@ function pabrik(){
 }
 
 function kebakaran(){
-    setHP(30);
+    setHP(30, true);
     clearAirPollution();
 
     simulation.className = "simulation firebg";
@@ -375,7 +385,7 @@ function kebakaran(){
 }
 
 function penghijauan(){
-    setHP(100);
+    setHP(100, true);
     clearAirPollution();
 
     simulation.className = "simulation green";
@@ -524,7 +534,7 @@ setTimeout(() => {
         fire.addEventListener('click', function(e) {
             if(this.style.display !== "none" && currentHP < 100) {
                 this.style.display = "none";
-                setHP(100);
+                setHP(100, true);
                 createFloatingText(e, "Api padam! 💦", "#4ade80");
                 playPopSound();
                 e.stopPropagation();

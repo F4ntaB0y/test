@@ -104,6 +104,7 @@
     .fish:hover, .plant:hover, .tree:hover, .city:hover, .factory:hover, .sun:hover, .cloud:hover, .car:hover { filter: drop-shadow(0 0 10px rgba(255,255,255,0.8)) brightness(1.2); }
 
     
+    
     /* GAME CSS */
     .health-bar-container { width: 100%; margin-bottom: 20px; text-align: left; }
     .health-bar-text { font-size: 16px; font-weight: 600; color: #f8fafc; margin-bottom: 8px; display: flex; justify-content: space-between; }
@@ -113,9 +114,18 @@
     .hp-mid { background: linear-gradient(90deg, #b45309 0%, #f59e0b 100%); box-shadow: 0 0 15px rgba(245, 158, 11, 0.8); }
     .game-hint { text-align: center; font-size: 14px; color: #4ade80; margin-top: 15px; font-weight: 500; animation: pulseHint 2s infinite; display: none; }
     @keyframes pulseHint { 0% { opacity: 0.5; } 50% { opacity: 1; transform: scale(1.05); } 100% { opacity: 0.5; } }
-    .clickable-pollution { cursor: crosshair !important; transition: 0.2s; }
-    .clickable-pollution:hover { transform: scale(1.2) rotate(10deg); filter: brightness(1.5) drop-shadow(0 0 10px white); }
-    .clickable-pollution:active { transform: scale(0.8); }
+    .clickable-pollution { cursor: crosshair !important; transition: 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .clickable-pollution:hover { filter: brightness(1.5) drop-shadow(0 0 10px white); }
+    .clickable-pollution:active { transform: scale(0.8) !important; }
+    
+    /* JUICE EFFECTS */
+    .particle { position: fixed; width: 8px; height: 8px; border-radius: 50%; pointer-events: none; z-index: 10001; animation: explode 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards; box-shadow: 0 0 5px currentColor; }
+    @keyframes explode { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--vx), var(--vy)) scale(0); opacity: 0; } }
+    .confetti { position: fixed; width: 12px; height: 12px; z-index: 10002; pointer-events: none; animation: fall linear forwards; }
+    @keyframes fall { 0% { transform: translateY(-10px) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+    .shake { animation: shakeAnim 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+    @keyframes shakeAnim { 10%, 90% { transform: translate3d(-2px, 0, 0); } 20%, 80% { transform: translate3d(4px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-6px, 0, 0); } 40%, 60% { transform: translate3d(6px, 0, 0); } }
+
 
 </style>
 
@@ -202,26 +212,26 @@ function showTrash(){trash.forEach(i=>i.classList.add("show-trash"));}
 function damagePlants(){plants.forEach(i=>i.classList.add("dead-plant"));}
 function healPlants(){plants.forEach(i=>i.classList.remove("dead-plant"));}
 function sampah(){
-    setHP(40); resetPollutionVisibility('.trash');
+    setHP(40, true); resetPollutionVisibility('.trash');
     hideAllPollution();
     land.classList.add("polluted");showTrash();damagePlants();document.getElementById("soil").innerHTML="Menurun";document.getElementById("plant").innerHTML="Layu";document.getElementById("organism").innerHTML="Berkurang";document.getElementById("color").innerHTML="Kusam";document.getElementById("info").innerHTML="Sampah anorganik sulit terurai dan menyebabkan tanah tercemar.";}
 function pestisida(){
-    setHP(40); resetPollutionVisibility('.gas');
+    setHP(40, true); resetPollutionVisibility('.gas');
     hideAllPollution();
     document.getElementById('toxic-gas').classList.add('active-pollution');
     land.classList.add("polluted");damagePlants();document.getElementById("soil").innerHTML="Tercemar";document.getElementById("plant").innerHTML="Keracunan";document.getElementById("organism").innerHTML="Cacing Mati";document.getElementById("color").innerHTML="Kehitaman";document.getElementById("info").innerHTML="Pestisida kimia membunuh organisme tanah dan mengurangi kesuburan.";}
 function limbah(){
-    setHP(40); resetPollutionVisibility('.barrel-tanah');
+    setHP(40, true); resetPollutionVisibility('.barrel-tanah');
     hideAllPollution();
     barrels.forEach(i=>i.classList.add('show-barrel'));
     land.classList.add("polluted");damagePlants();document.getElementById("soil").innerHTML="Rusak";document.getElementById("plant").innerHTML="Mati";document.getElementById("organism").innerHTML="Hilang";document.getElementById("color").innerHTML="Hitam Pekat";document.getElementById("info").innerHTML="Limbah industri mengandung bahan berbahaya yang merusak tanah.";}
 function oli(){
-    setHP(40); resetPollutionVisibility('.puddle');
+    setHP(40, true); resetPollutionVisibility('.puddle');
     hideAllPollution();
     document.getElementById('oil-spill').classList.add('active-pollution');
     land.classList.add("polluted");damagePlants();document.getElementById("soil").innerHTML="Tercemar Oli";document.getElementById("plant").innerHTML="Tidak Tumbuh";document.getElementById("organism").innerHTML="Berkurang";document.getElementById("color").innerHTML="Hitam Berminyak";document.getElementById("info").innerHTML="Tumpahan oli menghambat penyerapan air dan nutrisi tanah.";}
 function resetSimulasi(){
-    setHP(100);
+    setHP(100, false);
     hideAllPollution();
     land.classList.remove("polluted");trash.forEach(i=>i.classList.remove("show-trash"));healPlants();document.getElementById("soil").innerHTML="Baik";document.getElementById("plant").innerHTML="Subur";document.getElementById("organism").innerHTML="Normal";document.getElementById("color").innerHTML="Coklat";document.getElementById("info").innerHTML="Tanah kembali subur dan ekosistem darat normal.";}
 
