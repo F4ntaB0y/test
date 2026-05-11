@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIRLAB Pencemaran Tanah</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins', sans-serif;}
+body{background:#dff6e4;overflow-x:hidden;}
+.container{width:100%;min-height:100vh;position:relative;overflow:hidden;}
+.bg{position:absolute;width:100%;height:100%;background:linear-gradient(to bottom,rgba(255,255,255,0.2),rgba(0,0,0,0.15)),url('https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?q=80&w=2070&auto=format&fit=crop');background-size:cover;background-position:center;z-index:-2;}
+.overlay{position:absolute;width:100%;height:100%;background:rgba(0,0,0,0.15);z-index:-1;}
+.title{text-align:center;padding-top:35px;color:white;text-shadow:0 6px 15px rgba(0,0,0,0.4);}
+.title h1{font-size:50px;line-height:1.1;font-weight:800;}
+.title p{margin-top:10px;font-size:18px;}
+.main-card{width:92%;margin:25px auto;background:rgba(255,255,255,0.18);backdrop-filter:blur(12px);border-radius:35px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,0.2);}
+.section-title{color:white;font-size:22px;font-weight:700;margin-bottom:15px;}
+.button-group{display:flex;flex-direction:column;gap:15px;}
+.btn{border:none;padding:18px;border-radius:20px;font-size:18px;font-weight:600;background:white;color:#3b2f2f;cursor:pointer;transition:0.3s;box-shadow:0 4px 10px rgba(0,0,0,0.15);}
+.btn:hover{transform:scale(1.02);}
+.table-box{margin-top:30px;background:white;border-radius:25px;padding:20px;}
+.table-box h2{text-align:center;margin-bottom:20px;color:#3b2f2f;}
+table{width:100%;border-collapse:collapse;}
+th{background:#6b8e23;color:white;padding:14px;}
+td{padding:14px;text-align:center;border:1px solid #ddd;background:#f9fff6;}
+.land{width:100%;height:340px;margin-top:30px;border-radius:30px;position:relative;overflow:hidden;background:linear-gradient(to bottom,#8ecf6c 0%,#8ecf6c 40%,#7a5230 40%,#5c3b22 100%);}
+.sun{position:absolute;top:20px;right:20px;width:70px;height:70px;background:#ffd60a;border-radius:50%;box-shadow:0 0 30px #ffd60a;}
+.tree{position:absolute;font-size:70px;}
+.t1{left:5%;top:70px;}.t2{left:35%;top:85px;}.t3{left:70%;top:65px;}
+.plant{position:absolute;font-size:45px;bottom:90px;}
+.p1{left:10%;}.p2{left:25%;}.p3{left:45%;}.p4{left:65%;}.p5{left:82%;}
+.worm{position:absolute;bottom:25px;font-size:35px;animation:move 6s infinite alternate;}
+.w1{left:20%;}.w2{left:60%;}
+@keyframes move{from{transform:translateX(0);}to{transform:translateX(25px);}}
+.trash{position:absolute;font-size:40px;opacity:0;transition:1s;}
+.tr1{left:20%;top:150px;}.tr2{left:50%;top:170px;}.tr3{left:75%;top:160px;}
+.info-box{margin-top:25px;background:rgba(59,47,47,0.88);color:white;border-radius:25px;padding:25px;text-align:center;font-size:21px;line-height:1.5;}
+.polluted{filter:grayscale(70%);}
+.dead-plant{opacity:0.4;transform:rotate(15deg);}
+.show-trash{opacity:1;}
+@media(max-width:600px){.title h1{font-size:40px;}.btn{font-size:16px;}.info-box{font-size:18px;}}
+/* BACK BUTTON */
+.back-btn{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 100;
+    transition: 0.3s;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+.back-btn:hover{
+    background: rgba(255,255,255,0.4);
+    transform: scale(1.05);
+}
+</style>
+</head>
+<body>
+<a href="index.html" class="back-btn">⬅ Kembali ke Menu</a>
+<div class="container">
+<div class="bg"></div>
+<div class="overlay"></div>
+<div class="title">
+    <h1>DAMPAK<br>PENCEMARAN TANAH</h1>
+    <p>Simulasi Pengaruh Pencemaran terhadap Kesuburan Tanah</p>
+</div>
+<div class="main-card">
+    <div class="section-title">Pilih Jenis Pencemaran</div>
+    <div class="button-group">
+        <button class="btn" onclick="sampah()">🗑️ Sampah Anorganik</button>
+        <button class="btn" onclick="pestisida()">☠️ Pestisida Kimia</button>
+        <button class="btn" onclick="limbah()">🛢️ Limbah Industri</button>
+        <button class="btn" onclick="oli()">🚗 Tumpahan Oli</button>
+        <button class="btn" onclick="resetSimulasi()">🔄 Reset Simulasi</button>
+    </div>
+    <div class="table-box">
+        <h2>Hasil Pengamatan</h2>
+        <table>
+            <tr><th>Parameter</th><th>Hasil</th></tr>
+            <tr><td>Kesuburan Tanah</td><td id="soil">Baik</td></tr>
+            <tr><td>Kondisi Tumbuhan</td><td id="plant">Subur</td></tr>
+            <tr><td>Organisme Tanah</td><td id="organism">Normal</td></tr>
+            <tr><td>Warna Tanah</td><td id="color">Coklat</td></tr>
+        </table>
+    </div>
+    <div class="land" id="land">
+        <div class="sun"></div>
+        <div class="tree t1">🌳</div>
+        <div class="tree t2">🌲</div>
+        <div class="tree t3">🌳</div>
+        <div class="plant p1">🌱</div>
+        <div class="plant p2">🌿</div>
+        <div class="plant p3">🌱</div>
+        <div class="plant p4">🌿</div>
+        <div class="plant p5">🌱</div>
+        <div class="worm w1">🪱</div>
+        <div class="worm w2">🪱</div>
+        <div class="trash tr1">🗑️</div>
+        <div class="trash tr2">🛢️</div>
+        <div class="trash tr3">☠️</div>
+    </div>
+    <div class="info-box" id="info">Tanah masih subur dan ekosistem darat normal.</div>
+</div>
+</div>
+<script>
+const land=document.getElementById("land");
+const plants=document.querySelectorAll(".plant");
+const trash=document.querySelectorAll(".trash");
+function showTrash(){trash.forEach(i=>i.classList.add("show-trash"));}
+function damagePlants(){plants.forEach(i=>i.classList.add("dead-plant"));}
+function healPlants(){plants.forEach(i=>i.classList.remove("dead-plant"));}
+function sampah(){land.classList.add("polluted");showTrash();damagePlants();document.getElementById("soil").innerHTML="Menurun";document.getElementById("plant").innerHTML="Layu";document.getElementById("organism").innerHTML="Berkurang";document.getElementById("color").innerHTML="Kusam";document.getElementById("info").innerHTML="Sampah anorganik sulit terurai dan menyebabkan tanah tercemar.";}
+function pestisida(){land.classList.add("polluted");showTrash();damagePlants();document.getElementById("soil").innerHTML="Tercemar";document.getElementById("plant").innerHTML="Keracunan";document.getElementById("organism").innerHTML="Cacing Mati";document.getElementById("color").innerHTML="Kehitaman";document.getElementById("info").innerHTML="Pestisida kimia membunuh organisme tanah dan mengurangi kesuburan.";}
+function limbah(){land.classList.add("polluted");showTrash();damagePlants();document.getElementById("soil").innerHTML="Rusak";document.getElementById("plant").innerHTML="Mati";document.getElementById("organism").innerHTML="Hilang";document.getElementById("color").innerHTML="Hitam Pekat";document.getElementById("info").innerHTML="Limbah industri mengandung bahan berbahaya yang merusak tanah.";}
+function oli(){land.classList.add("polluted");showTrash();damagePlants();document.getElementById("soil").innerHTML="Tercemar Oli";document.getElementById("plant").innerHTML="Tidak Tumbuh";document.getElementById("organism").innerHTML="Berkurang";document.getElementById("color").innerHTML="Hitam Berminyak";document.getElementById("info").innerHTML="Tumpahan oli menghambat penyerapan air dan nutrisi tanah.";}
+function resetSimulasi(){land.classList.remove("polluted");trash.forEach(i=>i.classList.remove("show-trash"));healPlants();document.getElementById("soil").innerHTML="Baik";document.getElementById("plant").innerHTML="Subur";document.getElementById("organism").innerHTML="Normal";document.getElementById("color").innerHTML="Coklat";document.getElementById("info").innerHTML="Tanah kembali subur dan ekosistem darat normal.";}
+</script>
+</body>
+</html>

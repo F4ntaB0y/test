@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VIRLAB Pencemaran Air</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    background:#bfe9ff;
+    overflow-x:hidden;
+}
+
+/* CONTAINER */
+.container{
+    width:100%;
+    min-height:100vh;
+    position:relative;
+    overflow:hidden;
+}
+
+/* BACKGROUND */
+.bg{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:
+    linear-gradient(to bottom,
+    rgba(255,255,255,0.2),
+    rgba(0,0,0,0.15)),
+    url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop');
+    background-size:cover;
+    background-position:center;
+    z-index:-2;
+}
+
+/* DARK OVERLAY */
+.overlay{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.15);
+    z-index:-1;
+}
+
+/* TITLE */
+.title{
+    text-align:center;
+    padding-top:40px;
+    color:white;
+    text-shadow:0 6px 15px rgba(0,0,0,0.4);
+}
+
+.title h1{
+    font-size:55px;
+    line-height:1.1;
+    font-weight:800;
+}
+
+.title p{
+    margin-top:10px;
+    font-size:18px;
+}
+
+/* MAIN CARD */
+.main-card{
+    width:92%;
+    margin:25px auto;
+    background:rgba(255,255,255,0.18);
+    backdrop-filter:blur(12px);
+    border-radius:35px;
+    padding:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* BUTTONS */
+.section-title{
+    color:white;
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+.button-group{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.btn{
+    border:none;
+    padding:18px;
+    border-radius:20px;
+    font-size:18px;
+    font-weight:600;
+    background:white;
+    color:#003049;
+    cursor:pointer;
+    transition:0.3s;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+}
+
+.btn:hover{
+    transform:scale(1.02);
+}
+
+/* TABLE */
+.table-box{
+    margin-top:30px;
+    background:white;
+    border-radius:25px;
+    padding:20px;
+}
+
+.table-box h2{
+    text-align:center;
+    margin-bottom:20px;
+    color:#003049;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#0077b6;
+    color:white;
+    padding:14px;
+    font-size:16px;
+}
+
+td{
+    padding:14px;
+    text-align:center;
+    border:1px solid #ddd;
+    background:#f8fbff;
+    font-size:15px;
+}
+
+/* RIVER */
+.river{
+    width:100%;
+    height:320px;
+    margin-top:30px;
+    border-radius:30px;
+    position:relative;
+    overflow:hidden;
+    background:
+    linear-gradient(to bottom,
+    rgba(74,202,255,0.7),
+    rgba(0,119,182,0.95));
+}
+
+/* WATER WAVES */
+.wave{
+    position:absolute;
+    width:200%;
+    height:120px;
+    background:rgba(255,255,255,0.15);
+    border-radius:40%;
+    animation:wave 10s linear infinite;
+}
+
+.wave:nth-child(1){
+    top:20px;
+}
+
+.wave:nth-child(2){
+    top:90px;
+    animation-duration:16s;
+}
+
+@keyframes wave{
+    from{
+        transform:translateX(0);
+    }
+    to{
+        transform:translateX(-50%);
+    }
+}
+
+/* FISH */
+.fish{
+    position:absolute;
+    font-size:42px;
+    animation:swim 18s linear infinite;
+}
+
+.f1{ top:40px; animation-delay:0s; }
+.f2{ top:120px; animation-delay:3s; }
+.f3{ top:210px; animation-delay:6s; }
+.f4{ top:70px; animation-delay:9s; }
+.f5{ top:170px; animation-delay:12s; }
+
+@keyframes swim{
+    from{
+        left:110%;
+    }
+    to{
+        left:-20%;
+    }
+}
+
+/* PLANTS */
+.plant{
+    position:absolute;
+    bottom:0;
+    font-size:50px;
+}
+
+.p1{ left:5%; }
+.p2{ left:25%; }
+.p3{ left:45%; }
+.p4{ left:65%; }
+.p5{ left:85%; }
+
+/* INFO */
+.info-box{
+    margin-top:25px;
+    background:rgba(0,44,66,0.85);
+    color:white;
+    border-radius:25px;
+    padding:25px;
+    text-align:center;
+    font-size:22px;
+    font-weight:500;
+    line-height:1.5;
+}
+
+/* EFFECTS */
+.polluted{
+    background:
+    linear-gradient(to bottom,
+    rgba(70,70,70,0.9),
+    rgba(20,20,20,1)) !important;
+}
+
+.foam{
+    background:
+    linear-gradient(to bottom,
+    rgba(230,245,255,0.9),
+    rgba(120,180,255,1)) !important;
+}
+
+.green{
+    background:
+    linear-gradient(to bottom,
+    rgba(90,170,90,0.9),
+    rgba(30,90,40,1)) !important;
+}
+
+.plastic{
+    background:
+    linear-gradient(to bottom,
+    rgba(120,120,120,0.9),
+    rgba(50,50,50,1)) !important;
+}
+
+.dead{
+    transform:rotate(90deg);
+    opacity:0.4;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+
+    .title h1{
+        font-size:42px;
+    }
+
+    .btn{
+        font-size:16px;
+    }
+
+    .info-box{
+        font-size:18px;
+    }
+
+}
+
+/* BACK BUTTON */
+.back-btn{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 100;
+    transition: 0.3s;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+.back-btn:hover{
+    background: rgba(255,255,255,0.4);
+    transform: scale(1.05);
+}
+</style>
+</head>
+
+<body>
+<a href="index.html" class="back-btn">⬅ Kembali ke Menu</a>
+
+<div class="container">
+
+<div class="bg"></div>
+<div class="overlay"></div>
+
+<!-- TITLE -->
+<div class="title">
+    <h1>DAMPAK<br>PENCEMARAN AIR</h1>
+    <p>Simulasi Pengaruh Pencemaran terhadap Ekosistem Perairan</p>
+</div>
+
+<!-- MAIN -->
+<div class="main-card">
+
+    <div class="section-title">
+        Pilih Jenis Limbah
+    </div>
+
+    <div class="button-group">
+
+        <button class="btn" onclick="deterjen()">
+            🧼 Limbah Deterjen
+        </button>
+
+        <button class="btn" onclick="pabrik()">
+            🏭 Limbah Pabrik
+        </button>
+
+        <button class="btn" onclick="plastik()">
+            🛍️ Sampah Plastik
+        </button>
+
+        <button class="btn" onclick="pestisida()">
+            ☠️ Pestisida
+        </button>
+
+        <button class="btn" onclick="resetSimulasi()">
+            🔄 Reset Simulasi
+        </button>
+
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-box">
+
+        <h2>Hasil Pengamatan</h2>
+
+        <table>
+
+            <tr>
+                <th>Parameter</th>
+                <th>Hasil</th>
+            </tr>
+
+            <tr>
+                <td>pH Air</td>
+                <td id="ph">7</td>
+            </tr>
+
+            <tr>
+                <td>Kadar Oksigen</td>
+                <td id="oxygen">Tinggi</td>
+            </tr>
+
+            <tr>
+                <td>Kondisi Air</td>
+                <td id="water">Jernih</td>
+            </tr>
+
+            <tr>
+                <td>Kondisi Ikan</td>
+                <td id="fishStatus">Sehat</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- RIVER -->
+    <div class="river" id="river">
+
+        <div class="wave"></div>
+        <div class="wave"></div>
+
+        <!-- FISH -->
+        <div class="fish f1">🐟</div>
+        <div class="fish f2">🐠</div>
+        <div class="fish f3">🐟</div>
+        <div class="fish f4">🐠</div>
+        <div class="fish f5">🐟</div>
+
+        <!-- PLANTS -->
+        <div class="plant p1">🌿</div>
+        <div class="plant p2">🌱</div>
+        <div class="plant p3">🌿</div>
+        <div class="plant p4">🌱</div>
+        <div class="plant p5">🌿</div>
+
+    </div>
+
+    <!-- INFO -->
+    <div class="info-box" id="info">
+        Air masih bersih dan ekosistem perairan normal.
+    </div>
+
+</div>
+
+</div>
+
+<script>
+
+const river = document.getElementById("river");
+const fishes = document.querySelectorAll(".fish");
+
+function deterjen(){
+
+    river.className = "river foam";
+
+    document.getElementById("ph").innerHTML = "9";
+    document.getElementById("oxygen").innerHTML = "Menurun";
+    document.getElementById("water").innerHTML = "Berbusa";
+    document.getElementById("fishStatus").innerHTML = "Lemas";
+
+    fishes.forEach(fish=>{
+        fish.classList.remove("dead");
+    });
+
+    document.getElementById("info").innerHTML =
+    "Limbah deterjen menyebabkan air berbusa dan kadar oksigen menurun.";
+
+}
+
+function pabrik(){
+
+    river.className = "river polluted";
+
+    document.getElementById("ph").innerHTML = "4";
+    document.getElementById("oxygen").innerHTML = "Sangat Rendah";
+    document.getElementById("water").innerHTML = "Hitam Pekat";
+    document.getElementById("fishStatus").innerHTML = "Banyak Mati";
+
+    fishes.forEach(fish=>{
+        fish.classList.add("dead");
+    });
+
+    document.getElementById("info").innerHTML =
+    "Limbah pabrik menyebabkan pencemaran berat dan kematian ikan.";
+
+}
+
+function plastik(){
+
+    river.className = "river plastic";
+
+    document.getElementById("ph").innerHTML = "7";
+    document.getElementById("oxygen").innerHTML = "Menurun";
+    document.getElementById("water").innerHTML = "Keruh";
+    document.getElementById("fishStatus").innerHTML = "Terganggu";
+
+    fishes.forEach(fish=>{
+        fish.classList.remove("dead");
+    });
+
+    document.getElementById("info").innerHTML =
+    "Sampah plastik mengganggu kehidupan organisme air.";
+
+}
+
+function pestisida(){
+
+    river.className = "river green";
+
+    document.getElementById("ph").innerHTML = "5";
+    document.getElementById("oxygen").innerHTML = "Rendah";
+    document.getElementById("water").innerHTML = "Hijau";
+    document.getElementById("fishStatus").innerHTML = "Keracunan";
+
+    fishes.forEach(fish=>{
+        fish.classList.remove("dead");
+    });
+
+    document.getElementById("info").innerHTML =
+    "Pestisida merusak rantai makanan dan organisme air.";
+
+}
+
+function resetSimulasi(){
+
+    river.className = "river";
+
+    document.getElementById("ph").innerHTML = "7";
+    document.getElementById("oxygen").innerHTML = "Tinggi";
+    document.getElementById("water").innerHTML = "Jernih";
+    document.getElementById("fishStatus").innerHTML = "Sehat";
+
+    fishes.forEach(fish=>{
+        fish.classList.remove("dead");
+    });
+
+    document.getElementById("info").innerHTML =
+    "Air kembali bersih dan ekosistem perairan normal.";
+
+}
+
+</script>
+
+</body>
+</html>
