@@ -78,7 +78,19 @@
         @keyframes carMove { 0% { left: -200px; } 100% { left: 120%; } }
 
 
-        .fire { position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%); font-size: 110px; display: none; animation: fireAnim 0.5s infinite alternate; filter: drop-shadow(0 -10px 20px #ef4444); }
+        
+        .fire { 
+            position: absolute; 
+            bottom: 115px; 
+            right: 10px; 
+            font-size: 95px; 
+            display: none; 
+            animation: fireAnim 0.5s infinite alternate, sway 4s infinite alternate ease-in-out; 
+            transform-origin: bottom; 
+            filter: drop-shadow(0 -10px 30px #ef4444) brightness(1.3); 
+            z-index: 1001 !important; 
+            pointer-events: auto !important;
+        }
         @keyframes fireAnim { from { transform: translateX(-50%) scale(1); } to { transform: translateX(-50%) scale(1.1); } }
 
         .info { margin-top: 35px; background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(251, 191, 36, 0.05)); border-left: 4px solid #fbbf24; color: #f8fafc; border-radius: 20px; padding: 25px; text-align: center; font-size: 18px; font-weight: 500; line-height: 1.6; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: 0.5s; }
