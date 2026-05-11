@@ -486,20 +486,35 @@
     @keyframes fall { 0% { transform: translateY(-10px) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
 
-        /* ULTIMATE BUBBLE FORCE COMPOSITOR - GAMIFIED RE-ACTIVATED */
-        .foam-bubbles .bubble.clickable-pollution {
-            animation-name: rise, dangerPulse;
-            animation-duration: 4s, 2s;
+        /* RISING AMBIENT BACKGROUND BUBBLES (NON-INTERACTIVE) */
+        .foam-bubbles .bubble {
+            animation-name: rise;
+            animation-duration: 4s;
             animation-iteration-count: infinite;
-            animation-timing-function: ease-in, ease-in-out;
-            z-index: 2000 !important;
-            pointer-events: auto !important; /* Playable now */
+            animation-timing-function: ease-in;
+            z-index: 1000 !important;
+            pointer-events: none !important; /* Pure aesthetics */
         }
-        .foam-bubbles .b1 { animation-delay: 0s, 0s !important; }
-        .foam-bubbles .b2 { animation-delay: 1s, 1s !important; }
-        .foam-bubbles .b3 { animation-delay: 2.5s, 2.5s !important; }
-        .foam-bubbles .b4 { animation-delay: 1.8s, 1.8s !important; }
-        .foam-bubbles .b5 { animation-delay: 0.5s, 0.5s !important; }
+        .foam-bubbles .b1 { animation-delay: 0s !important; }
+        .foam-bubbles .b2 { animation-delay: 1s !important; }
+        .foam-bubbles .b3 { animation-delay: 2.5s !important; }
+        .foam-bubbles .b4 { animation-delay: 1.8s !important; }
+        .foam-bubbles .b5 { animation-delay: 0.5s !important; }
+
+        /* INTERACTIVE FLOATING SOAP TARGETS IN THE MIDDLE */
+        .soap-target {
+            position: absolute;
+            font-size: 55px;
+            z-index: 2001 !important; /* Tops everything */
+            pointer-events: auto !important;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+        }
+        .st1 { top: 30%; left: 15%; animation: float-trash 6s infinite alternate ease-in-out; }
+        .st2 { top: 50%; left: 35%; animation: float-trash 5s infinite alternate ease-in-out 1s; }
+        .st3 { top: 40%; left: 55%; animation: float-trash 7s infinite alternate ease-in-out 0.5s; }
+        .st4 { top: 55%; left: 75%; animation: float-trash 6s infinite alternate ease-in-out 1.5s; }
+        .st5 { top: 35%; left: 90%; animation: float-trash 5s infinite alternate ease-in-out; }
 
 </style>
 
@@ -623,11 +638,19 @@
     
         <!-- POLLUTION ELEMENTS -->
         <div class="foam-bubbles" id="foam-bubbles">
+            <!-- Ambient rising streams -->
             <div class="bubble b1">🧼</div>
             <div class="bubble b2">🫧</div>
             <div class="bubble b3">🧼</div>
             <div class="bubble b4">🫧</div>
             <div class="bubble b5">🧼</div>
+            
+            <!-- Game target elements -->
+            <div class="soap-target st1">🧼</div>
+            <div class="soap-target st2">🫧</div>
+            <div class="soap-target st3">🧼</div>
+            <div class="soap-target st4">🫧</div>
+            <div class="soap-target st5">🧼</div>
         </div>
         <div class="plastic-waste" id="plastic-waste">
             <div class="trash-item t1">🛍️</div><div class="trash-item t2">🥤</div><div class="trash-item t3">🧴</div>
@@ -949,13 +972,13 @@ function bindCleanAction(selector, hpGain) {
 }
 
 function resetGameElements() {
-    document.querySelectorAll('.bubble, .trash-item, .barrel-air, .p-item').forEach(el => {
+    document.querySelectorAll('.bubble, .trash-item, .barrel-air, .p-item, .soap-target').forEach(el => {
         el.style.display = "";
     });
 }
 
 setTimeout(() => {
-    bindCleanAction('.bubble', 10); 
+    bindCleanAction('.soap-target', 10); 
     bindCleanAction('.trash-item', 20);
     bindCleanAction('.barrel-air', 20);
     bindCleanAction('.p-item', 30);
