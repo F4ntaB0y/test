@@ -346,7 +346,30 @@
             .table-box { padding: 15px; }
             th, td { font-size: 14px; padding: 12px; }
         }
+
+        /* NEW POLLUTION CSS */
+        .foam-bubbles, .plastic-waste, .toxic-waste, .pestisida-gas { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; opacity: 0; transition: opacity 1s ease; }
+        .active-pollution { opacity: 1 !important; }
+        .bubble { position: absolute; background: rgba(255,255,255,0.7); border-radius: 50%; animation: rise 4s infinite ease-in; box-shadow: inset 0 0 10px rgba(255,255,255,0.9); }
+        .b1 { width: 40px; height: 40px; left: 20%; bottom: -40px; animation-delay: 0s; }
+        .b2 { width: 60px; height: 60px; left: 40%; bottom: -60px; animation-delay: 1s; }
+        .b3 { width: 30px; height: 30px; left: 60%; bottom: -30px; animation-delay: 2s; }
+        .b4 { width: 50px; height: 50px; left: 80%; bottom: -50px; animation-delay: 0.5s; }
+        .b5 { width: 35px; height: 35px; left: 50%; bottom: -35px; animation-delay: 1.5s; }
+        @keyframes rise { 0% { transform: translateY(0) scale(1); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-300px) scale(1.5); opacity: 0; } }
+        .trash-item, .barrel-air { position: absolute; font-size: 40px; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.4)); animation: float-trash 6s infinite alternate ease-in-out; }
+        .t1 { top: 30px; left: 20%; animation-delay: 0s; }
+        .t2 { top: 60px; left: 50%; animation-delay: 1s; }
+        .t3 { top: 40px; left: 80%; animation-delay: 2s; }
+        .br1 { bottom: 20px; left: 25%; font-size: 60px; animation: sink 3s forwards; }
+        .br2 { bottom: 30px; left: 55%; font-size: 50px; animation: sink 3s forwards 0.5s; }
+        .br3 { bottom: 10px; left: 85%; font-size: 70px; animation: sink 3s forwards 1s; }
+        @keyframes float-trash { 0% { transform: translateY(0) rotate(-10deg); } 100% { transform: translateY(20px) rotate(10deg); } }
+        @keyframes sink { 0% { transform: translateY(-200px) rotate(0deg); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(0) rotate(15deg); opacity: 1; } }
+        .pestisida-gas { background: radial-gradient(circle at center, rgba(74, 222, 128, 0.4) 0%, transparent 70%); filter: blur(20px); animation: pulse-gas 3s infinite alternate; }
+        @keyframes pulse-gas { from { transform: scale(1); opacity: 0.5; } to { transform: scale(1.2); opacity: 1; } }
     </style>
+
 
 </head>
 
@@ -451,6 +474,18 @@
         <div class="plant p4">🌱</div>
         <div class="plant p5">🌿</div>
 
+    
+        <!-- POLLUTION ELEMENTS -->
+        <div class="foam-bubbles" id="foam-bubbles">
+            <div class="bubble b1"></div><div class="bubble b2"></div><div class="bubble b3"></div><div class="bubble b4"></div><div class="bubble b5"></div>
+        </div>
+        <div class="plastic-waste" id="plastic-waste">
+            <div class="trash-item t1">🛍️</div><div class="trash-item t2">🥤</div><div class="trash-item t3">🧴</div>
+        </div>
+        <div class="toxic-waste" id="toxic-waste">
+            <div class="barrel-air br1">🛢️</div><div class="barrel-air br2">🛢️</div><div class="barrel-air br3">🛢️</div>
+        </div>
+        <div class="pestisida-gas" id="pestisida-gas"></div>
     </div>
 
     <!-- INFO -->
@@ -467,7 +502,17 @@
 const river = document.getElementById("river");
 const fishes = document.querySelectorAll(".fish");
 
+
+function clearPollution() {
+    document.getElementById("foam-bubbles").classList.remove("active-pollution");
+    document.getElementById("plastic-waste").classList.remove("active-pollution");
+    document.getElementById("toxic-waste").classList.remove("active-pollution");
+    document.getElementById("pestisida-gas").classList.remove("active-pollution");
+}
+
 function deterjen(){
+    clearPollution();
+    document.getElementById('foam-bubbles').classList.add('active-pollution');
 
     river.className = "river foam";
 
@@ -486,6 +531,8 @@ function deterjen(){
 }
 
 function pabrik(){
+    clearPollution();
+    document.getElementById('toxic-waste').classList.add('active-pollution');
 
     river.className = "river polluted";
 
@@ -504,6 +551,8 @@ function pabrik(){
 }
 
 function plastik(){
+    clearPollution();
+    document.getElementById('plastic-waste').classList.add('active-pollution');
 
     river.className = "river plastic";
 
@@ -522,6 +571,8 @@ function plastik(){
 }
 
 function pestisida(){
+    clearPollution();
+    document.getElementById('pestisida-gas').classList.add('active-pollution');
 
     river.className = "river green";
 
@@ -540,6 +591,7 @@ function pestisida(){
 }
 
 function resetSimulasi(){
+    clearPollution();
 
     river.className = "river";
 

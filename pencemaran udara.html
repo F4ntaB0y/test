@@ -76,11 +76,7 @@
         @keyframes wheel { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes carMove { 0% { left: -200px; } 100% { left: 120%; } }
 
-        .smoke { position: absolute; width: 100px; height: 100px; border-radius: 50%; background: rgba(30,41,59,0.6); filter: blur(15px); opacity: 0; }
-        .s1 { left: 100px; bottom: 230px; animation: smoke 4s infinite ease-out; }
-        .s2 { left: 150px; bottom: 300px; animation: smoke 4s infinite 1.2s ease-out; }
-        .s3 { left: 200px; bottom: 360px; animation: smoke 4s infinite 2.4s ease-out; }
-        @keyframes smoke { 0% { transform: translateY(0) scale(0.5); opacity: 0.8; } 100% { transform: translateY(-150px) scale(2); opacity: 0; } }
+         100% { transform: translateY(-150px) scale(2); opacity: 0; } }
 
         .fire { position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%); font-size: 110px; display: none; animation: fireAnim 0.5s infinite alternate; filter: drop-shadow(0 -10px 20px #ef4444); }
         @keyframes fireAnim { from { transform: translateX(-50%) scale(1); } to { transform: translateX(-50%) scale(1.1); } }
@@ -95,7 +91,25 @@
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         @media(max-width: 700px) { .card { padding: 25px; } .buttons { grid-template-columns: 1fr; } .btn { align-items: flex-start; } .table-box { padding: 15px; } th, td { font-size: 14px; padding: 12px; } }
+
+        /* NEW POLLUTION UDARA CSS */
+        .smoke { position: absolute; border-radius: 50%; background: rgba(30,41,59,0.6); filter: blur(15px); pointer-events: none; transition: 0.5s; }
+        .factory-smoke { width: 100px; height: 100px; }
+        .fs1 { left: 100px; bottom: 230px; animation: smoke-rise 4s infinite ease-out; }
+        .fs2 { left: 150px; bottom: 300px; animation: smoke-rise 4s infinite 1.2s ease-out; }
+        .fs3 { left: 200px; bottom: 360px; animation: smoke-rise 4s infinite 2.4s ease-out; }
+        @keyframes smoke-rise { 0% { transform: translateY(0) scale(0.5); opacity: 0.8; } 100% { transform: translateY(-150px) scale(2); opacity: 0; } }
+
+        .car-smoke-container { position: absolute; left: -20px; bottom: 10px; width: 40px; height: 40px; opacity: 0; transition: 0.5s; pointer-events: none; }
+        .cs { position: absolute; background: rgba(30,41,59,0.8); border-radius: 50%; width: 20px; height: 20px; filter: blur(5px); animation: car-smoke-puff 1.5s infinite; }
+        .cs1 { left: 0; animation-delay: 0s; }
+        .cs2 { left: -10px; bottom: 5px; animation-delay: 0.5s; }
+        .cs3 { left: -5px; bottom: -5px; animation-delay: 1s; }
+        @keyframes car-smoke-puff { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(3) translateX(-20px) translateY(-10px); opacity: 0; } }
+
+        .active-pollution { opacity: 1 !important; }
     </style>
+
 </head>
 
 <body>
@@ -220,10 +234,12 @@
 
         <div class="tree">🌳</div>
 
-        <!-- ASAP -->
-        <div class="smoke s1"></div>
-        <div class="smoke s2"></div>
-        <div class="smoke s3"></div>
+        <!-- ASAP PABRIK -->
+        <div id="factory-smoke-group" style="opacity: 0; transition: 1s;">
+            <div class="smoke factory-smoke fs1"></div>
+            <div class="smoke factory-smoke fs2"></div>
+            <div class="smoke factory-smoke fs3"></div>
+        </div>
 
         <!-- API -->
         <div class="fire" id="fire">
@@ -237,10 +253,11 @@
 
             <!-- MOBIL -->
             <div class="car">
-
+                <div class="car-smoke-container" id="car-smoke-group">
+                    <div class="cs cs1"></div><div class="cs cs2"></div><div class="cs cs3"></div>
+                </div>
                 <div class="wheel w1"></div>
                 <div class="wheel w2"></div>
-
             </div>
 
         </div>
@@ -263,7 +280,15 @@
 const simulation = document.getElementById("simulation");
 const fire = document.getElementById("fire");
 
+
+function clearAirPollution() {
+    document.getElementById("factory-smoke-group").classList.remove("active-pollution");
+    document.getElementById("car-smoke-group").classList.remove("active-pollution");
+}
+
 function kendaraan(){
+    clearAirPollution();
+    document.getElementById('car-smoke-group').classList.add('active-pollution');
 
     simulation.className = "simulation polluted";
 
@@ -280,6 +305,8 @@ function kendaraan(){
 }
 
 function pabrik(){
+    clearAirPollution();
+    document.getElementById('factory-smoke-group').classList.add('active-pollution');
 
     simulation.className = "simulation polluted";
 
@@ -296,6 +323,7 @@ function pabrik(){
 }
 
 function kebakaran(){
+    clearAirPollution();
 
     simulation.className = "simulation firebg";
 
@@ -312,6 +340,7 @@ function kebakaran(){
 }
 
 function penghijauan(){
+    clearAirPollution();
 
     simulation.className = "simulation green";
 
