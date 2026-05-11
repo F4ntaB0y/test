@@ -486,14 +486,17 @@
     @keyframes fall { 0% { transform: translateY(-10px) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
 
-        /* RISING AMBIENT BACKGROUND BUBBLES (NON-INTERACTIVE) */
+        /* RISING AMBIENT BACKGROUND BUBBLES (VISUALLY PUSHED TO BACKGROUND) */
         .foam-bubbles .bubble {
             animation-name: rise;
             animation-duration: 4s;
             animation-iteration-count: infinite;
             animation-timing-function: ease-in;
             z-index: 1000 !important;
-            pointer-events: none !important; /* Pure aesthetics */
+            pointer-events: none !important; 
+            opacity: 0.4 !important; /* Pushed back visually */
+            filter: blur(2px) grayscale(0.5); /* Depth of field effect */
+            font-size: 35px !important; /* Smaller than interactive targets */
         }
         .foam-bubbles .b1 { animation-delay: 0s !important; }
         .foam-bubbles .b2 { animation-delay: 1s !important; }
@@ -501,20 +504,20 @@
         .foam-bubbles .b4 { animation-delay: 1.8s !important; }
         .foam-bubbles .b5 { animation-delay: 0.5s !important; }
 
-        /* INTERACTIVE FLOATING SOAP TARGETS IN THE MIDDLE */
+        /* INTERACTIVE FLOATING SOAP TARGETS IN THE MIDDLE (HIGHLY VISIBLE) */
         .soap-target {
             position: absolute;
-            font-size: 55px;
-            z-index: 2001 !important; /* Tops everything */
+            font-size: 65px; /* Much larger than background */
+            z-index: 2001 !important; 
             pointer-events: auto !important;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
             cursor: pointer;
+            filter: drop-shadow(0 0 15px red); /* Force detection */
         }
-        .st1 { top: 30%; left: 15%; animation: float-trash 6s infinite alternate ease-in-out; }
-        .st2 { top: 50%; left: 35%; animation: float-trash 5s infinite alternate ease-in-out 1s; }
-        .st3 { top: 40%; left: 55%; animation: float-trash 7s infinite alternate ease-in-out 0.5s; }
-        .st4 { top: 55%; left: 75%; animation: float-trash 6s infinite alternate ease-in-out 1.5s; }
-        .st5 { top: 35%; left: 90%; animation: float-trash 5s infinite alternate ease-in-out; }
+        .st1 { top: 30%; left: 15%; animation: float-trash 6s infinite alternate ease-in-out, dangerPulse 2s infinite ease-in-out; }
+        .st2 { top: 50%; left: 35%; animation: float-trash 5s infinite alternate ease-in-out 1s, dangerPulse 2s infinite ease-in-out 0.5s; }
+        .st3 { top: 40%; left: 55%; animation: float-trash 7s infinite alternate ease-in-out 0.5s, dangerPulse 2s infinite ease-in-out 1s; }
+        .st4 { top: 55%; left: 75%; animation: float-trash 6s infinite alternate ease-in-out 1.5s, dangerPulse 2s infinite ease-in-out 1.5s; }
+        .st5 { top: 35%; left: 90%; animation: float-trash 5s infinite alternate ease-in-out, dangerPulse 2s infinite ease-in-out; }
 
 </style>
 
