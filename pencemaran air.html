@@ -964,14 +964,30 @@ function bindCleanAction(selector, hpGain) {
     document.querySelectorAll(selector).forEach(el => {
         el.classList.add('clickable-pollution');
         el.addEventListener('click', function(e) {
-            if(currentHP < 100) {
-                this.style.display = "none"; 
-                setHP(currentHP + hpGain, false, false);
-                createFloatingText(e, `+${hpGain} HP ✨`, "#4ade80");
-                createExplosion(e.clientX, e.clientY);
-                playPopSound();
-                e.stopPropagation();
+            // GUARANTEE OCCLUSION: Always hide the element immediately on click! Fixes non-disappearing bug.
+            if(this.style.display === "none") return;
+            this.style.display = "none"; 
+
+            // VISUAL JUICE
+            createExplosion(e.clientX, e.clientY);
+            createFloatingText(e, `+${hpGain} HP ✨`, "#4ade80");
+            playPopSound();
+            e.stopPropagation();
+
+            // SMART VICTORY PROTOCOL: Count remaining interactive objects in the layer
+            const allItems = document.querySelectorAll(selector);
+            const remainingItems = Array.from(allItems).filter(i => i.style.display !== "none").length;
+
+            // Increment HP naturally, but strictly cap at 99% UNLESS it's the final absolute element!
+            let calculatedHP = currentHP + hpGain;
+            if(calculatedHP >= 100 && remainingItems > 0) {
+                calculatedHP = 99; // Stay almost full, wait for final clear!
             }
+            if(remainingItems === 0) {
+                calculatedHP = 100; // THE ABSOLUTE FINAL TRIGGER!
+            }
+
+            setHP(calculatedHP, false, false);
         });
     });
 }
