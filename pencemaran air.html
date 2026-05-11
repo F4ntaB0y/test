@@ -368,6 +368,16 @@
         @keyframes sink { 0% { transform: translateY(-200px) rotate(0deg); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(0) rotate(15deg); opacity: 1; } }
         .pestisida-gas { background: radial-gradient(circle at center, rgba(74, 222, 128, 0.4) 0%, transparent 70%); filter: blur(20px); animation: pulse-gas 3s infinite alternate; }
         @keyframes pulse-gas { from { transform: scale(1); opacity: 0.5; } to { transform: scale(1.2); opacity: 1; } }
+    
+    /* INTERACTIVE CSS */
+    .ripple { position: fixed; border-radius: 50%; transform: scale(0); animation: ripple-anim 0.6s linear; background: rgba(255, 255, 255, 0.4); pointer-events: none; z-index: 9999; }
+    @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
+    .floating-text { position: fixed; font-weight: bold; font-size: 18px; pointer-events: none; animation: floatUp 1s ease-out forwards; z-index: 10000; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
+    @keyframes floatUp { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-50px) scale(1.3); opacity: 0; } }
+    /* Cursor hints */
+    .fish, .plant, .tree, .city, .factory, .sun, .cloud, .car { cursor: pointer; transition: filter 0.3s; }
+    .fish:hover, .plant:hover, .tree:hover, .city:hover, .factory:hover, .sun:hover, .cloud:hover, .car:hover { filter: drop-shadow(0 0 10px rgba(255,255,255,0.8)) brightness(1.2); }
+
     </style>
 
 
@@ -608,6 +618,62 @@ function resetSimulasi(){
     "Air kembali bersih dan ekosistem perairan normal.";
 
 }
+
+
+// Audio Synthesizer
+function playClickSound() {
+    try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioContext();
+        const osc = ctx.createOscillator();
+        const gainNode = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(600, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.1);
+        gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+        osc.connect(gainNode);
+        gainNode.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.1);
+    } catch(e) {}
+}
+
+function createFloatingText(e, text, color) {
+    let ft = document.createElement("div");
+    ft.className = "floating-text";
+    ft.innerText = text;
+    ft.style.left = e.clientX + "px";
+    ft.style.top = e.clientY + "px";
+    ft.style.color = color || "white";
+    document.body.appendChild(ft);
+    setTimeout(() => ft.remove(), 1000);
+}
+
+document.addEventListener("click", function(e) {
+    if(e.target.closest('.btn') || e.target.closest('.card') || e.target.closest('.back-btn')) {
+        playClickSound();
+    }
+    let ripple = document.createElement("div");
+    ripple.className = "ripple";
+    ripple.style.left = (e.clientX - 20) + "px";
+    ripple.style.top = (e.clientY - 20) + "px";
+    ripple.style.width = "40px";
+    ripple.style.height = "40px";
+    document.body.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+});
+
+
+document.querySelectorAll('.fish').forEach(el => {
+    el.addEventListener('click', (e) => {
+        let rv = document.getElementById('river');
+        if(rv.classList.contains('foam')) createFloatingText(e, "Perih! 🫧", "#ff9999");
+        else if(rv.classList.contains('plastic')) createFloatingText(e, "Tersedak! 🗑️", "#ff9999");
+        else if(rv.classList.contains('green')) createFloatingText(e, "Pusing... 🤢", "#a8e6cf");
+        else createFloatingText(e, "Segar! 🐟", "#99ccff");
+    });
+});
 
 </script>
 
