@@ -425,7 +425,8 @@ function penghijauan(){
 
 }
 
-function resetSimulasi() {
+function resetSimulasi(){
+    resetGameElements();
     penghijauan();
 }
 
@@ -647,6 +648,16 @@ setTimeout(() => {
         });
     }
 }, 500);
+
+
+function resetGameElements() {
+    document.querySelectorAll('.factory-smoke, .cs').forEach(el => {
+        el.style.display = "";
+        el.style.opacity = "";
+        el.style.pointerEvents = "";
+        el.style.transform = "translate(0,0)";
+    });
+}
 
 </script>
 
