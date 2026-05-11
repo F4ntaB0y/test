@@ -231,6 +231,8 @@
 
     </div>
 
+    <div class="game-hint" id="game-hint">🎮 GAME MODE: Klik polutan (sampah/asap/limbah) di simulasi untuk membersihkannya!</div>
+
     <!-- TABLE -->
     <div class="table-box">
 
@@ -548,7 +550,8 @@ function setHP(val, isDamage = false, isReset = false) {
         }
 
         if(currentHP >= 100) {
-            document.getElementById("game-hint").style.display = "none";
+            const hint = document.getElementById("game-hint");
+            if(hint) hint.style.display = "none";
             if(previousHP < 100 && !isDamage && !isReset) {
                 window.victoryTimeout = setTimeout(() => {
                     triggerVictory();
@@ -556,7 +559,8 @@ function setHP(val, isDamage = false, isReset = false) {
                 }, 300);
             }
         } else {
-            document.getElementById("game-hint").style.display = "block";
+            const hint = document.getElementById("game-hint");
+            if(hint) hint.style.display = "block";
         }
     }
 }

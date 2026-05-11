@@ -367,7 +367,7 @@ function setHP(val, isDamage = false, isReset = false) {
         }
 
         if(currentHP >= 100) {
-            document.getElementById("game-hint").style.display = "none";
+            const hintN = document.getElementById("game-hint"); if(hintN) hintN.style.display = "none";
             if(previousHP < 100 && !isDamage && !isReset) {
                 window.victoryTimeout = setTimeout(() => {
                     triggerVictory();
@@ -375,7 +375,7 @@ function setHP(val, isDamage = false, isReset = false) {
                 }, 300);
             }
         } else {
-            document.getElementById("game-hint").style.display = "block";
+            const hintB = document.getElementById("game-hint"); if(hintB) hintB.style.display = "block";
         }
     }
 }
