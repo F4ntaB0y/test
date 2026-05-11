@@ -354,8 +354,16 @@
         }
 
         /* NEW POLLUTION CSS */
-        .foam-bubbles, .plastic-waste, .toxic-waste, .pestisida-gas { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; opacity: 0; transition: opacity 1s ease; z-index: 20; }
-        .active-pollution { opacity: 1 !important; pointer-events: auto !important; }
+        /* FORCE CONTAINERS TO NEVER BLOCK CLICKS, ONLY THEIR CHILDREN CAN */
+        .foam-bubbles, .plastic-waste, .toxic-waste { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none !important; opacity: 0; transition: opacity 1s ease; z-index: 20; }
+        .pestisida-gas { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none !important; opacity: 0; transition: opacity 1s ease; z-index: 10; } /* Low z-index by default so it never blocks others */
+        
+        /* ACTIVE STATES */
+        .active-pollution { opacity: 1 !important; }
+        .active-pollution.pestisida-gas { pointer-events: auto !important; z-index: 30 !important; } /* ONLY becomes high z-index & clickable when explicitly active! */
+        
+        /* CHILDREN - MUST ALWAYS BE CLICKABLE AND AT THE VERY TOP */
+        .bubble, .trash-item, .barrel-air { pointer-events: auto !important; z-index: 50 !important; position: absolute; }
         .bubble { position: absolute; background: rgba(255,255,255,0.7); border-radius: 50%; animation: rise 4s infinite ease-in; box-shadow: inset 0 0 10px rgba(255,255,255,0.9); }
         .b1 { width: 40px; height: 40px; left: 20%; bottom: -40px; animation-delay: 0s; }
         .b2 { width: 60px; height: 60px; left: 40%; bottom: -60px; animation-delay: 1s; }
@@ -851,11 +859,10 @@ function bindCleanAction(selector, hpGain) {
         el.classList.add('clickable-pollution');
         
         el.addEventListener('mouseover', function(e) {
-            if(Math.random() > 0.5) {
-                let dx = (Math.random() - 0.5) * 40;
-                let dy = (Math.random() - 0.5) * 40;
-                this.style.transform = `translate(${dx}px, ${dy}px) rotate(${Math.random()*45}deg)`;
-            }
+            this.style.transform = "scale(1.2) rotate(5deg)";
+        });
+        el.addEventListener('mouseout', function(e) {
+            this.style.transform = "scale(1) rotate(0deg)";
         });
 
         el.addEventListener('click', function(e) {
