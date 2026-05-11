@@ -138,9 +138,7 @@
     @keyframes explode { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--vx), var(--vy)) scale(0); opacity: 0; } }
     .confetti { position: fixed; width: 12px; height: 12px; z-index: 10002; pointer-events: none; animation: fall linear forwards; }
     @keyframes fall { 0% { transform: translateY(-10px) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-    .shake { animation: shakeAnim 0.5s cubic-bezier(.36,.07,.19,.97) both; }
-    @keyframes shakeAnim { 10%, 90% { transform: translate3d(-2px, 0, 0); } 20%, 80% { transform: translate3d(4px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-6px, 0, 0); } 40%, 60% { transform: translate3d(6px, 0, 0); } }
-
+    
 
 </style>
 
@@ -534,8 +532,7 @@ function setHP(val, isDamage = false, isReset = false) {
         
         if(isDamage) {
             playDamageSound();
-            document.body.classList.add("shake");
-            setTimeout(()=>document.body.classList.remove("shake"), 500);
+            
         }
 
         if(currentHP >= 100) {
